@@ -1,1 +1,1 @@
-# PINE
+# PINE: Parallel Interpreter Network
