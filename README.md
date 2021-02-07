@@ -1,7 +1,7 @@
 # PINE: Parallel Interpreter Network
 
 ## Introduction
-PINE (\textbf{P}arallel \textbf{I}nterpreter \textbf{NE}twork) is a novel interpretability framework which provides a decent interpretations of DNNs in order to make the reasoning behind the decisions of a black-box model transparent to usrs.
+PINE (**P**arallel **I**nterpreter **NE**twork) is a novel interpretability framework which provides a decent interpretations of DNNs in order to make the reasoning behind the decisions of a black-box model transparent to usrs.
 
 ## How PINE works?
 PINE's structure consists of two paralell networks. The Main Model, whcih is the primary model we want to get interpreted, and the Interperter, which is an autoencoder network trains parallel to the main model and eventualy learns how the main model predicts. 
