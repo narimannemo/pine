@@ -5,6 +5,7 @@ PINE (**P**arallel **I**nterpreter **NE**twork) is a novel interpretability fram
 
 ## How PINE works?
 PINE's structure consists of two paralell networks. The Main Model, whcih is the primary model we want to get interpreted, and the Interperter, which is an autoencoder network trains parallel to the main model and eventualy learns how the main model predicts. 
+![image](https://user-images.githubusercontent.com/19486359/107159400-a3878080-6987-11eb-9075-bef8251559a4.png)
 
 ## Experiments
 
