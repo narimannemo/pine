@@ -1,6 +1,0 @@
-model_checkpoint_path: "MNIST_PINE.model-5466"
-all_model_checkpoint_paths: "MNIST_PINE.model-1094"
-all_model_checkpoint_paths: "MNIST_PINE.model-2187"
-all_model_checkpoint_paths: "MNIST_PINE.model-3280"
-all_model_checkpoint_paths: "MNIST_PINE.model-4373"
-all_model_checkpoint_paths: "MNIST_PINE.model-5466"
