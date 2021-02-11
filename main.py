@@ -8,9 +8,10 @@ from utils import check_folder
 import tensorflow as tf
 import argparse
 
-"""parsing and configuration"""
+### parsing and configuration ###
+
 def parse_args():
-    desc = "Tensorflow implementation of GAN collections"
+    desc = "PINE implementation with Tensorflow"
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--main_model', type=str, default='mnist_model_no1', help='Select the Main Model', choices=['mnist_model_no1', 'mnist_model_no2'], required=True)
@@ -26,7 +27,8 @@ def parse_args():
 
     return check_args(parser.parse_args())
 
-"""checking arguments"""
+### checking arguments ###
+
 def check_args(args):
     # --checkpoint_dir
     check_folder(args.checkpoint_dir)
@@ -43,7 +45,8 @@ def check_args(args):
 
     return args
 
-"""main"""
+### main ###
+
 def main():
     # parse arguments
     args = parse_args()

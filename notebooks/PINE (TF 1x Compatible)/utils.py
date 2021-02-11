@@ -21,7 +21,7 @@ classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 import tensorflow as tf
-import tf_slim as slim
+
 
 def load_cifar10(dataset_name):
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
