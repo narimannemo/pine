@@ -10,7 +10,7 @@ PINE's structure consists of two paralell networks. The Main Model, which is the
 ### Console
 **1.** Donwnload PINE repository and redirect to its folder using the code below in your terminal:
 ```bash
-git clone https://github.com/narimannemo/PINE-Parallel-Interpreter-Network.git
+git clone https://github.com/narimannemo/pine.git
 cd pine
 ```
 **2.** Run main.py by filling the required arguments using the following code: 
