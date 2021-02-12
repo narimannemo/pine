@@ -28,9 +28,10 @@ import interpreters
 class MNIST_PINE(object):
     model_name = "MNIST_PINE"     # name for checkpoint
 
-    def __init__(self, sess, main_model, interpreter, epoch, batch_size, dataset_name, checkpoint_dir):
+    def __init__(self, sess, main_model, interpreter, epoch, batch_size, dataset_name, checkpoint_dir, result_dir):
         self.sess = sess
         self.dataset_name = dataset_name
+        self.result_dir = result_dir
         self.checkpoint_dir = checkpoint_dir
         self.epoch = epoch
         self.batch_size = batch_size
@@ -54,7 +55,7 @@ class MNIST_PINE(object):
             self.len_discrete_code = 10
 
             # load mnist
-            self.data_X, self.data_y = load_mnist(self.dataset_name)
+            self.data_X, self.data_X_test, self.data_y, self.data_y_test = load_mnist(self.dataset_name)
 
             # get number of batches for a single epoch
             self.num_batches = len(self.data_X) // self.batch_size
@@ -70,15 +71,16 @@ class MNIST_PINE(object):
         image_dims = [self.input_height, self.input_width, self.c_dim]
         bs = self.batch_size
 
-        """ Graph Input """
+        ### Graph Input ###
         # images
         self.inputs = tf.compat.v1.placeholder(tf.float32, [bs] + image_dims, name='real_images')
-
+	# test images
+        self.samples_tests = tf.compat.v1.placeholder(tf.float32, [bs] + image_dims, name='test_images')
         # labels
         self.y = tf.compat.v1.placeholder(tf.float32, [bs, self.y_dim], name='y')
-
-
-        """ Loss Function """
+        # labels
+        self.y_test = tf.compat.v1.placeholder(tf.float32, [bs, self.y_dim], name='y_test')
+        ### Loss Function ###
 
 
         tafsir, tafsir_err, code = self.interpreter(self.inputs, self.batch_size, is_training=True)
@@ -93,7 +95,7 @@ class MNIST_PINE(object):
         self.int_loss = 10000*tafsir_err + 10000*self.kcc(out_tafsir, self.y) + sumi / 1000000 
 
 
-        """ Training """
+        ### Training ###
 
         t_vars = tf.compat.v1.trainable_variables()
         int_vars = [var for var in t_vars if 'int_' in var.name]
@@ -109,10 +111,10 @@ class MNIST_PINE(object):
             .minimize(self.mm_loss, var_list=mm_vars)
 
 
-        """" Testing """
+        ### Testing ###
         # for test
-        self.tafsir_images = self.interpreter(self.inputs, self.batch_size, is_training=False, reuse=True)
-        """ Summary """
+        self.test_images = self.interpreter(self.samples_tests, self.batch_size, is_training=False, reuse=True)
+        ### Summary ###
         int_loss_sum = tf.compat.v1.summary.scalar("int_loss", self.int_loss)
         mm_loss_sum = tf.compat.v1.summary.scalar("mm_loss", self.mm_loss)
 
@@ -178,7 +180,16 @@ class MNIST_PINE(object):
                 print("Epoch: [%2d] [%4d/%4d] time: %4.4f, int_loss: %.8f,mm_loss: %.8f" \
                       % (epoch, idx, self.num_batches, time.time() - start_time, int_loss, mm_loss))
 
-
+                # save training results for every 300 steps
+                if np.mod(counter, 300) == 0:
+                    samples, non, non2 = self.sess.run(self.test_images, feed_dict={self.samples_tests: self.data_X_test[0:self.batch_size]})
+                    print(samples.shape)
+                    tot_num_samples = min(self.sample_num, self.batch_size)
+                    manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
+                    manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
+                    save_images(samples[:manifold_h * manifold_w], [manifold_h, manifold_w],
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}_interpretations.png'.format(
+                                    epoch, idx))
             start_batch_id = 0
 
             # save model
@@ -186,7 +197,19 @@ class MNIST_PINE(object):
 
         # save model for final step
         self.save(self.checkpoint_dir, counter)
+        # show temporal results
+        self.save_results(epoch)
 
+    def save_results(self, epoch):
+
+        tot_num_samples = min(self.sample_num, self.batch_size)
+
+        image_frame_dim = int(np.floor(np.sqrt(tot_num_samples)))
+
+        samples = self.sess.run(self.test_images, feed_dict={self.samples_tests: self.data_X_test[0:self.batch_size]})
+        samples = samples.numpy()
+        save_images(samples[:image_frame_dim * image_frame_dim], [image_frame_dim, image_frame_dim],
+                    check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_interpretations.png')
     @property
     def model_dir(self):
         return "{}_{}".format(

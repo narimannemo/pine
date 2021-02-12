@@ -150,27 +150,30 @@ def load_mnist(dataset_name):
     np.random.seed(seed)
     np.random.shuffle(y)
 
+    X, X_test = np.split(X,[69000])
+    y, y_test= np.split(y,[69000])
+
     y_vec = np.zeros((len(y), 10), dtype=np.float)
     for i, label in enumerate(y):
         y_vec[i, y[i]] = 1.0
+    y_vec_test = np.zeros((len(y_test), 10), dtype=np.float)
+    for i, label in enumerate(y_test):
+        y_vec_test[i, y_test[i]] = 1.0
 
-    return X / 255., y_vec
+    return X / 255., X_test / 255., y_vec, y_vec_test
 
 def check_folder(log_dir):
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
 
-def show_all_variables():
-    model_vars = tf.compat.v1.trainable_variables()
-    slim.model_analyzer.analyze_vars(model_vars, print_info=True)
 
 def get_image(image_path, input_height, input_width, resize_height=64, resize_width=64, crop=True, grayscale=False):
     image = imread(image_path, grayscale)
     return transform(image, input_height, input_width, resize_height, resize_width, crop)
 
 def save_images(images, size, image_path):
-    return imsave(inverse_transform(images), size, image_path)
+    return imsave(images, size, image_path)
 
 def imread(path, grayscale = False):
     if (grayscale):
@@ -220,8 +223,6 @@ def transform(image, input_height, input_width, resize_height=64, resize_width=6
         cropped_image = scipy.misc.imresize(image, [resize_height, resize_width])
     return np.array(cropped_image)/127.5 - 1.
 
-def inverse_transform(images):
-    return (images+1.)/2.
 
 """ Drawing Tools """
 # borrowed from https://github.com/ykwon0407/variational_autoencoder/blob/master/variational_bayes.ipynb

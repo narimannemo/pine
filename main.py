@@ -2,7 +2,7 @@ import os
 
 from pine import MNIST_PINE
 
-from utils import show_all_variables
+#from utils import show_all_variables
 from utils import check_folder
 
 import tensorflow as tf
@@ -68,15 +68,14 @@ def main():
                                 epoch=args.epoch,
                                 batch_size=args.batch_size,
                                 dataset_name=args.dataset,
-                                checkpoint_dir=args.checkpoint_dir)
+                                checkpoint_dir=args.checkpoint_dir,
+                                result_dir=args.result_dir)
         if pine is None:
             raise Exception("[!] There is no option for " + args.main_model)
 
         # build graph
         pine.build_pine()
 
-        # show network architecture
-        show_all_variables()
 
         # launch the graph in a session
         pine.train()
