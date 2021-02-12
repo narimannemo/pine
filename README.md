@@ -6,6 +6,12 @@
 ## How PINE works?
 PINE's structure consists of two paralell networks. The Main Model, which is the primary model we want to get interpreted, and the Interperter, which is an autoencoder network trains parallel to the main model and eventualy learns how the main model predicts. 
 ![image](https://user-images.githubusercontent.com/19486359/107159400-a3878080-6987-11eb-9075-bef8251559a4.png)
+
+<img align="right" src="https://im2.ezgif.com/tmp/ezgif-2-50a822e28e5e.gif">Due to the loss functions inside PINE, after each propagation through the training process, the interpreter learns more on how to generate an accurate interpretation based on Main Model's input.  
+
+
+
+
 ## Getting Startd
 ### Console
 **1.** Donwnload PINE repository and redirect to its folder using the code below in your terminal:
