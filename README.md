@@ -7,9 +7,17 @@
 PINE's structure consists of two paralell networks. The Main Model, which is the primary model we want to get interpreted, and the Interperter, which is an autoencoder network trains parallel to the main model and eventualy learns how the main model predicts. 
 ![image](https://user-images.githubusercontent.com/19486359/107159400-a3878080-6987-11eb-9075-bef8251559a4.png)
 
-<img align="right" src="https://im2.ezgif.com/tmp/ezgif-2-50a822e28e5e.gif">Due to the loss functions inside PINE, after each propagation through the training process, the interpreter learns more on how to generate an accurate interpretation based on Main Model's input.  
+Due to the loss functions inside PINE, after each propagation through the training process, the interpreter learns more on how to generate an accurate interpretation based on Main Model's input.  
 
-
+<table style="margin-left: auto;margin-right: auto;">
+    <thead>
+        <tr>
+            <th align="left"><img src="https://user-images.githubusercontent.com/19486359/107769671-3e89ad00-6d30-11eb-801e-3b606cea920b.png"></th>
+            <th align= "center"> &rarr; PINE &rarr; </th>
+            <th align="right"><img src="https://s2.gifyu.com/images/mnist_pine.gif"></th>
+        </tr>
+    </thead>
+</table>
 
 
 ## Getting Startd
