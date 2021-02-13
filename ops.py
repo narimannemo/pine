@@ -42,7 +42,13 @@ def coinv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name="c
         conv = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape())
 
         return conv
+def maxpooling2D(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name="coniv2d"):
+    with tf.compat.v1.variable_scope(name):
+        w = tf.compat.v1.get_variable('w', [k_h, k_w, input_.get_shape()[-1], output_dim],
+              initializer=tf.compat.v1.truncated_normal_initializer(stddev=stddev))
+        maxp = tf.compat.v1.nn.max_pool(input=input_, filters=w, strides=[1, d_h, d_w, 1], padding='SAME')
 
+        return maxp
 
 def deconv2d(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, name="deconv2d", stddev=0.02, with_w=False):
     with tf.compat.v1.variable_scope(name):

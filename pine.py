@@ -187,6 +187,9 @@ class MNIST_PINE(object):
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
                     manifold_w = int(np.floor(np.sqrt(tot_num_samples)))
+                    save_images(self.data_X_test[:manifold_h * manifold_w], [manifold_h, manifold_w],
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}_original.png'.format(
+                                    epoch, idx))
                     save_images(samples[:manifold_h * manifold_w], [manifold_h, manifold_w],
                                 './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}_interpretations.png'.format(
                                     epoch, idx))
@@ -208,6 +211,8 @@ class MNIST_PINE(object):
 
         samples = self.sess.run(self.test_images, feed_dict={self.samples_tests: self.data_X_test[0:self.batch_size]})
         samples = samples.numpy()
+        save_images(self.data_X_test[:image_frame_dim * image_frame_dim], [image_frame_dim, image_frame_dim],
+                    check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_original.png')
         save_images(samples[:image_frame_dim * image_frame_dim], [image_frame_dim, image_frame_dim],
                     check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_epoch%03d' % epoch + '_interpretations.png')
     @property
