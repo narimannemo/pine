@@ -1,6 +1,6 @@
 import os
 
-from pine import MNIST_PINE
+from pine import PINE
 
 #from utils import show_all_variables
 from utils import check_folder
@@ -11,7 +11,7 @@ import argparse
 ### parsing and configuration ###
 
 def parse_args():
-    desc = "PINE implementation with Tensorflow"
+    desc = "PINE TensorFlow implementation"
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--main_model', type=str, default='mnist_model_no1', help='Select the Main Model', choices=['mnist_model_no1', 'cifar10_model_no1'], required=True)
@@ -64,7 +64,7 @@ def main():
         for main_model in main_models:
             for interpreter in interpreters:
                 if args.main_model == main_model and args.interpreter == interpreter :
-                    pine = MNIST_PINE(sess, main_model=args.main_model, interpreter=args.interpreter,
+                    pine = PINE(sess, main_model=args.main_model, interpreter=args.interpreter,
                                 epoch=args.epoch,
                                 batch_size=args.batch_size,
                                 dataset_name=args.dataset,

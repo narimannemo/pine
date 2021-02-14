@@ -25,8 +25,8 @@ from utils import *
 import main_models
 import interpreters
 
-class MNIST_PINE(object):
-    model_name = "MNIST_PINE"     # name for checkpoint
+class PINE(object):
+    model_name = "PINE"     # name for checkpoint
 
     def __init__(self, sess, main_model, interpreter, epoch, batch_size, dataset_name, checkpoint_dir, result_dir):
         self.sess = sess
@@ -46,6 +46,10 @@ class MNIST_PINE(object):
             self.y_dim = 10        
             self.c_dim = 1
 
+            self.c1 = 10000
+            self.c2 = 10000
+            self.c3 = 1000000
+            self.c4 = 0
             # train
             self.learning_rate = 0.0001
             self.beta1 = 0.5
@@ -70,6 +74,11 @@ class MNIST_PINE(object):
             self.y_dim = 10        
             self.c_dim = 3
 
+
+            self.c1 = 10000
+            self.c2 = 10000
+            self.c3 = 1000000
+            self.c4 = 10000
             # train
             self.learning_rate = 0.0001
             self.beta1 = 0.5
@@ -106,16 +115,17 @@ class MNIST_PINE(object):
         ### Loss Function ###
 
 
-        tafsir, tafsir_err, code = self.interpreter(self.inputs, self.batch_size, is_training=True)
-        out_tafsir, out_logit_tafsir = self.main_model(tafsir, self.batch_size, is_training=True)
+        tafsir, tafsir_err, mask = self.interpreter(self.inputs, self.batch_size, is_training=True)
+        out_mask, out_logit_mask = self.main_model(mask, self.batch_size, is_training=False)
+        out_tafsir, out_logit_tafsir = self.main_model(tafsir, self.batch_size, is_training=False, reuse= True)
         out_real, out_logit_real = self.main_model(self.inputs, self.batch_size, is_training=True, reuse= True)        
 
 
 
         self.mm_loss = self.kcc(out_real,self.y)
-        out_sqrt = tf.keras.backend.sqrt(tafsir)
+        out_sqrt = tf.keras.backend.sqrt(mask)
         sumi = tf.keras.backend.sum(out_sqrt)**2
-        self.int_loss = 10000*tafsir_err + 10000*self.kcc(out_tafsir, self.y) + sumi / 1000000 
+        self.int_loss = self.c1*tafsir_err + self.c2*self.kcc(out_tafsir, self.y) + sumi / self.c3 + self.c4*self.kcc(out_mask, self.y)
 
 
         ### Training ###
@@ -143,6 +153,8 @@ class MNIST_PINE(object):
 
         self.int_sum = tf.compat.v1.summary.merge([int_loss_sum])
         self.mm_sum = tf.compat.v1.summary.merge([mm_loss_sum])
+
+
         #################################################### 
         #                                ________________  #
         #    ___________                \               /  #
