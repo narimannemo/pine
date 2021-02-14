@@ -48,6 +48,6 @@ After experimenting PINE on an MNIST model, the results below have achieved: (Th
 ## TODO
 - [ ] Add PINE visualizations
 - [ ] Add comparison with other Interpretability Methods
-- [ ] Add PINE results on Cifar10 
+- [ ] Add PINE results on CIFAR-10 
 ## Contributing
 If you like to contribute or add your experiments please go ahead and open an issue or submit a pull request.
