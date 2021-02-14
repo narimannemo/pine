@@ -52,10 +52,33 @@ class MNIST_PINE(object):
 
             # test
             self.sample_num = 64  
-            self.len_discrete_code = 10
 
             # load mnist
             self.data_X, self.data_X_test, self.data_y, self.data_y_test = load_mnist(self.dataset_name)
+
+            # get number of batches for a single epoch
+            self.num_batches = len(self.data_X) // self.batch_size
+            self.kcc = tf.keras.losses.CategoricalCrossentropy()
+
+        elif dataset_name == 'cifar10':
+            # parameters
+            self.input_height = 32
+            self.input_width = 32
+            self.output_height = 32
+            self.output_width = 32
+      
+            self.y_dim = 10        
+            self.c_dim = 3
+
+            # train
+            self.learning_rate = 0.0001
+            self.beta1 = 0.5
+
+            # test
+            self.sample_num = 64  
+
+            # load mnist
+            self.data_X, self.data_X_test, self.data_y, self.data_y_test = load_cifar10(self.dataset_name)
 
             # get number of batches for a single epoch
             self.num_batches = len(self.data_X) // self.batch_size

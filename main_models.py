@@ -25,7 +25,7 @@ from utils import *
 #          / MAIN  MODEL \
 #         /_______________\        
 
-# MNIST Models
+# MNIST Models ######################################################################
         
 def mnist_model_no1(x,batch_size, is_training=True, reuse=False):
 
@@ -40,28 +40,30 @@ def mnist_model_no1(x,batch_size, is_training=True, reuse=False):
 
         return out, out_logit
 
-# CIFAR-10 Models
+# CIFAR-10 Models ####################################################################
 
 def cifar10_model_no1(x,batch_size, is_training=True, reuse=False):
 # Source: https://www.kaggle.com/faressayah/cifar-10-image-classification-using-cnns-88
     with tf.compat.v1.variable_scope("main_model", reuse=reuse):    
 
-        net = relu(bn(coinv2d(x, 32, 3, 3, name='mm_conv1')))
-        net = relu(bn(coinv2d(x, 32, 3, 3, name='mm_conv2')))
-	net = tf.compat.v1.nn.max_pool(net, filters=2, padding='SAME')
-	net = tf.compat.v1.nn.dropout(net, rate=0.25)
-        net = relu(bn(coinv2d(x, 64, 3, 3, name='mm_conv3')))
-        net = relu(bn(coinv2d(x, 64, 3, 3, name='mm_conv4')))
-	net = tf.compat.v1.nn.max_pool(net, filters=2, padding='SAME')
-	net = tf.compat.v1.nn.dropout(net, rate=0.25)
-        net = relu(bn(coinv2d(x, 128, 3, 3, name='mm_conv5')))
-        net = relu(bn(coinv2d(x, 128, 3, 3, name='mm_conv6')))
-	net = tf.compat.v1.nn.max_pool(net, filters=2, padding='SAME')
-	net = tf.compat.v1.nn.dropout(net, rate=0.25)
-	net = tf.compat.v1.nn.dropout(net, rate=0.20)
-        net = linear(net, 2048, scope='mm_fc3')
-        out_logit = linear(net, 10, scope='mm_fc4')
-	net = tf.compat.v1.nn.dropout(net, rate=0.20)
+        net = relu(bn(coinv2d(x, 32, 3, 3, name='mm_conv1'), is_training=is_training, scope='mm_bn1'))
+        net = relu(bn(coinv2d(x, 32, 3, 3, name='mm_conv2'), is_training=is_training, scope='mm_bn2'))
+        net = tf.compat.v1.nn.max_pool(net, 2, 2, padding='SAME')
+        net = tf.compat.v1.nn.dropout(net, rate=0.25)
+        net = relu(bn(coinv2d(x, 64, 3, 3, name='mm_conv3'), is_training=is_training, scope='mm_bn3'))
+        net = relu(bn(coinv2d(x, 64, 3, 3, name='mm_conv4'), is_training=is_training, scope='mm_bn4'))
+        net = tf.compat.v1.nn.max_pool(net, 2, 2, padding='SAME')
+        net = tf.compat.v1.nn.dropout(net, rate=0.25)
+        net = relu(bn(coinv2d(x, 128, 3, 3, name='mm_conv5'), is_training=is_training, scope='mm_bn5'))
+        net = relu(bn(coinv2d(x, 128, 3, 3, name='mm_conv6'), is_training=is_training, scope='mm_bn6'))
+        net = tf.compat.v1.nn.max_pool(net, 2, 2, padding='SAME')
+        net = tf.compat.v1.nn.dropout(net, rate=0.25)
+
+        net = tf.reshape(net, [batch_size, -1])
+        net = tf.compat.v1.nn.dropout(net, rate=0.20)
+        net = relu(linear(net, 128, scope='mm_fc2'))
+        out_logit = linear(net, 10, scope='mm_fc3')
+        net = tf.compat.v1.nn.dropout(net, rate=0.25)
         out = tf.nn.softmax(out_logit)
 
         return out, out_logit

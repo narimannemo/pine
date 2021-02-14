@@ -14,8 +14,8 @@ def parse_args():
     desc = "PINE implementation with Tensorflow"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--main_model', type=str, default='mnist_model_no1', help='Select the Main Model', choices=['mnist_model_no1', 'mnist_model_no2'], required=True)
-    parser.add_argument('--interpreter', type=str, default='mnist_interpreter_no1', choices=['mnist_interpreter_no1','mnist_interpreter_no2'], help='Select the Interpreter', required=True)
+    parser.add_argument('--main_model', type=str, default='mnist_model_no1', help='Select the Main Model', choices=['mnist_model_no1', 'cifar10_model_no1'], required=True)
+    parser.add_argument('--interpreter', type=str, default='mnist_interpreter_no1', choices=['mnist_interpreter_no1','cifar10_interpreter_no1'], help='Select the Interpreter', required=True)
     parser.add_argument('--dataset', type=str, default='mnist', choices=['cifar10', 'mnist', 'fashion-mnist', 'celebA'],
                         help='Select the dataset')
     parser.add_argument('--epoch', type=int, default=20, help='The number of epochs to run')
@@ -54,8 +54,8 @@ def main():
       exit()
 
     # open session
-    main_models = ['mnist_model_no1', 'mnist_model_no2', 'mnist_model_no3']
-    interpreters = ['mnist_interpreter_no1', 'mnist_interpreter_no2', 'mnist_interpreter_no3']
+    main_models = ['mnist_model_no1', 'mnist_model_no2', 'cifar10_model_no1']
+    interpreters = ['mnist_interpreter_no1', 'mnist_interpreter_no2', 'cifar10_interpreter_no1']
 
     with tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(allow_soft_placement=True)) as sess:
         # declare instance for GAN

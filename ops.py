@@ -70,6 +70,8 @@ def deconv2d(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, name="deconv2d", 
             return deconv, w, biases
         else:
             return deconv
+def relu(x, name="relu"):
+    return tf.maximum(x, 0)
 
 def lrelu(x, leak=0.2, name="lrelu"):
     return tf.maximum(x, leak*x)

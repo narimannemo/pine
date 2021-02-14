@@ -28,16 +28,23 @@ def load_cifar10(dataset_name):
     x_test = X_test.astype('float32')
     X = np.concatenate((x_train, x_test), axis=0)
     y = np.concatenate((y_train, y_test), axis=0).astype(np.int)
-    seed = 547
+    seed = 333
     np.random.seed(seed)
     np.random.shuffle(X)
     np.random.seed(seed)
     np.random.shuffle(y)
 
+    X, X_test = np.split(X,[55000])
+    y, y_test= np.split(y,[55000])
+
     y_vec = np.zeros((len(y), 10), dtype=np.float)
     for i, label in enumerate(y):
         y_vec[i, y[i]] = 1.0
-    return X / 255.,y_vec
+
+    y_vec_test = np.zeros((len(y), 10), dtype=np.float)
+    for i, label in enumerate(y_test):
+        y_vec_test[i, y_test[i]] = 1.0
+    return X / 255., X_test / 255., y_vec, y_vec_test
 
 
 #def load_cifar10(dataset_name):

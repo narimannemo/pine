@@ -29,7 +29,7 @@ from utils import *
 #           /             \
 #          /_______________\
                 
-
+# MNIST Interpreters ######################################################################
 def mnist_interpreter_no1(x, batch_size, is_training=True, reuse=False):
         
     with tf.compat.v1.variable_scope("interpreter", reuse=reuse):
@@ -44,3 +44,21 @@ def mnist_interpreter_no1(x, batch_size, is_training=True, reuse=False):
         # recon loss
         recon_error = tf.sqrt(2 * tf.nn.l2_loss(out - x)) / batch_size
         return out, recon_error, code
+
+# CIFAR-10 Interpreters ######################################################################
+def cifar10_interpreter_no1(x, batch_size, is_training=True, reuse=False):
+        
+    with tf.compat.v1.variable_scope("interpreter", reuse=reuse):
+
+        net = tf.nn.relu(coinv2d(x, 12, 4, 4, 2, 2, name='int_conv1'))
+        net = tf.nn.relu(coinv2d(net, 24, 4, 4, 2, 2, name='int_conv2'))
+        code = tf.nn.relu(coinv2d(net, 48, 4, 4, 2, 2, name='int_conv3'))
+        net = tf.nn.relu(deconv2d(code, [batch_size, 8, 8, 24], 4, 4, 2, 2, name='int_deconv1'))
+        net = tf.nn.relu(deconv2d(net, [batch_size, 16, 16, 12], 4, 4, 2, 2, name='int_deconv2'))
+        out = tf.nn.sigmoid(deconv2d(net, [batch_size, 32, 32, 3], 4, 4, 2, 2, name='int_deconv3'))
+
+        # recon loss
+        recon_error = tf.sqrt(2 * tf.nn.l2_loss(out - x)) / batch_size
+        return out, recon_error, code
+
+

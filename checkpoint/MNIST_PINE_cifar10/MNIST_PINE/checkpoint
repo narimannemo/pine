@@ -1,0 +1,6 @@
+model_checkpoint_path: "MNIST_PINE.model-9450"
+all_model_checkpoint_paths: "MNIST_PINE.model-6014"
+all_model_checkpoint_paths: "MNIST_PINE.model-6873"
+all_model_checkpoint_paths: "MNIST_PINE.model-7732"
+all_model_checkpoint_paths: "MNIST_PINE.model-8591"
+all_model_checkpoint_paths: "MNIST_PINE.model-9450"
