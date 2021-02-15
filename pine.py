@@ -46,6 +46,7 @@ class PINE(object):
             self.y_dim = 10        
             self.c_dim = 1
 
+            # Loss terms coefficients
             self.c1 = 10000
             self.c2 = 10000
             self.c3 = 1000000
@@ -74,11 +75,11 @@ class PINE(object):
             self.y_dim = 10        
             self.c_dim = 3
 
-
+            # Loss terms coefficients
             self.c1 = 10000
             self.c2 = 10000
             self.c3 = 1000000
-            self.c4 = 10000
+            self.c4 = 1000
             # train
             self.learning_rate = 0.0001
             self.beta1 = 0.5
@@ -217,7 +218,7 @@ class PINE(object):
 
                 # save training results for every 300 steps
                 if np.mod(counter, 300) == 0:
-                    samples, non, non2 = self.sess.run(self.test_images, feed_dict={self.samples_tests: self.data_X_test[0:self.batch_size]})
+                    samples, non, masks = self.sess.run(self.test_images, feed_dict={self.samples_tests: self.data_X_test[0:self.batch_size]})
                     print(samples.shape)
                     tot_num_samples = min(self.sample_num, self.batch_size)
                     manifold_h = int(np.floor(np.sqrt(tot_num_samples)))
@@ -227,6 +228,9 @@ class PINE(object):
                                     epoch, idx))
                     save_images(samples[:manifold_h * manifold_w], [manifold_h, manifold_w],
                                 './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}_interpretations.png'.format(
+                                    epoch, idx))
+                    save_images(masks[:manifold_h * manifold_w], [manifold_h, manifold_w],
+                                './' + check_folder(self.result_dir + '/' + self.model_dir) + '/' + self.model_name + '_train_{:02d}_{:04d}_masks.png'.format(
                                     epoch, idx))
             start_batch_id = 0
 
