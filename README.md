@@ -44,20 +44,22 @@ You can easily add your costumized Main Models and Interpreters in the `main_mod
 ## Experiments
 ### MNIST
 After experimenting PINE on an MNIST model, the results below have achieved: (The pictures in the even columns are the interpretations of the pictures in the odd columns.)
+
 ![image](https://user-images.githubusercontent.com/19486359/107133665-a11f1b00-68e2-11eb-99ed-33839a32c844.png)
 ### CIFAR-10
 <table>
     <thead>
         <tr>       
             <th align="left"><img src="https://user-images.githubusercontent.com/19486359/108003990-6442da80-6fec-11eb-89b3-55e94b16b561.png"></th>
-            <th align= "center"> &rarr; PINE &rarr; </th>
-            <th align="right"><img src="https://s2.gifyu.com/images/cifar10_mask.gif"></th>
+            <th align= "center"> &rarr; PINE &rarr; </th>          
+            <th align="right"><img src="https://s2.gifyu.com/images/cifar10_mask.gif"></th>          
+             <th align="right"><img src="https://im3.ezgif.com/tmp/ezgif-3-b87ac766127d.gif"></th>
         </tr>
     </thead>
 </table>
 
 ## TODO
-- [ ] Add PINE results on CIFAR-10 
+- [x] Add PINE results on CIFAR-10 
 - [ ] Add PINE visualizations
 - [ ] Add comparison with other Interpretability Methods
 
