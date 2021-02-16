@@ -42,12 +42,24 @@ convenient with TensorFlow 1 and `PINE (TF 2x)` for those prefer TensorFlow 2. H
 ### Costumizing the Main Model and the Interpreter
 You can easily add your costumized Main Models and Interpreters in the `main_models.py` and `interpreters.py` files.
 ## Experiments
-After experimenting PINE on an MNIST model, the results below have achieved: (The pictures in the even columns are the interpretations of the pictures in the odd columns.)
 ### MNIST
+After experimenting PINE on an MNIST model, the results below have achieved: (The pictures in the even columns are the interpretations of the pictures in the odd columns.)
 ![image](https://user-images.githubusercontent.com/19486359/107133665-a11f1b00-68e2-11eb-99ed-33839a32c844.png)
+### CIFAR-10
+<table>
+    <thead>
+        <tr>       
+            <th align="left"><img src="https://user-images.githubusercontent.com/19486359/108003990-6442da80-6fec-11eb-89b3-55e94b16b561.png"></th>
+            <th align= "center"> &rarr; PINE &rarr; </th>
+            <th align="right"><img src="https://s2.gifyu.com/images/cifar10_mask.gif"></th>
+        </tr>
+    </thead>
+</table>
+
 ## TODO
+- [ ] Add PINE results on CIFAR-10 
 - [ ] Add PINE visualizations
 - [ ] Add comparison with other Interpretability Methods
-- [ ] Add PINE results on CIFAR-10 
+
 ## Contributing
 If you like to contribute or add your experiments please go ahead and open an issue or submit a pull request.
