@@ -63,6 +63,7 @@ def cifar10_interpreter_no1(x, batch_size, is_training=True, reuse=False):
         # recon loss
         recon_error = tf.sqrt(2 * tf.nn.l2_loss(mask - x)) / batch_size
 
+
         return out, recon_error, mask
 
 
