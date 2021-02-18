@@ -53,7 +53,7 @@ After experimenting PINE on an MNIST model, the results below have achieved: (Th
             <th align="left"><img src="https://user-images.githubusercontent.com/19486359/108003990-6442da80-6fec-11eb-89b3-55e94b16b561.png"></th>
             <th align= "center"> &rarr; PINE &rarr; </th>          
             <th align="right"><img src="https://s2.gifyu.com/images/cifar10_mask.gif"></th>          
-             <th align="right"><img src="https://im3.ezgif.com/tmp/ezgif-3-b87ac766127d.gif"></th>
+<!--             <th align="right"><img src="https://im3.ezgif.com/tmp/ezgif-3-b87ac766127d.gif"></th> -->
         </tr>
     </thead>
 </table>
