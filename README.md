@@ -27,7 +27,13 @@ Due to the loss functions inside PINE, after each propagation through the traini
 git clone https://github.com/narimannemo/pine.git
 cd pine
 ```
-**2.** Run main.py by filling the required arguments using the following code: 
+**2.** Run main.py by filling the required arguments:
+
+Arguments | main_model | interpreter | dataset 
+--- | --- | --- | --- 
+Options | mnist_model_no1, cifar10_model_no1| mnist_interpreter_no1, cifar10_interpreter_no1 | mnist, cifar10
+
+**For example:**
 ```bash
 python main.py --main_model mnist_model_no1  --interpreter mnist_interpreter_no1 --dataset mnist --epoch 10 --batch_size 64
 ```
