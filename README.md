@@ -14,7 +14,8 @@ Due to the loss functions inside PINE, after each propagation through the traini
         <tr>       
             <th align="left"><img src="https://user-images.githubusercontent.com/19486359/107769671-3e89ad00-6d30-11eb-801e-3b606cea920b.png"></th>
             <th align= "center"> &rarr; PINE &rarr; </th>
-            <th align="right"><img src="https://s2.gifyu.com/images/mnist_pine.gif"></th>
+            <th align="right"><img src="https://raw.githubusercontent.com/narimannemo/pine/main/mnist_pine.gif">
+            </th>
         </tr>
     </thead>
 </table>
@@ -58,8 +59,7 @@ After experimenting PINE on an MNIST model, the results below have achieved: (Th
         <tr>       
             <th align="left"><img src="https://user-images.githubusercontent.com/19486359/108003990-6442da80-6fec-11eb-89b3-55e94b16b561.png"></th>
             <th align= "center"> &rarr; PINE &rarr; </th>          
-            <th align="right"><img src="https://s2.gifyu.com/images/cifar10_mask.gif"></th>          
-<!--             <th align="right"><img src="https://im3.ezgif.com/tmp/ezgif-3-b87ac766127d.gif"></th> -->
+            <th align="right"><img src="https://raw.githubusercontent.com/narimannemo/pine/main/cifar10_mask.gif"></th>          
         </tr>
     </thead>
 </table>
