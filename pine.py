@@ -2,32 +2,24 @@ from __future__ import division
 import os
 import time
 import tensorflow as tf
-from tensorflow import keras
 import numpy as np
-from tensorflow.keras import backend
-from tensorflow.keras.models import load_model
-from tensorflow.keras.datasets import mnist
-
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.keras.optimizers import Adam
-from keras.layers.normalization import BatchNormalization
-from keras.utils import np_utils
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, ZeroPadding2D, GlobalAveragePooling2D
-from keras.layers.advanced_activations import LeakyReLU 
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from keras.utils.generic_utils import get_custom_objects
-
 import pandas as pd
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, ZeroPadding2D, GlobalAveragePooling2D
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.losses import CategoricalCrossentropy
+from tensorflow.keras.datasets import mnist, cifar10
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from ops import *
 from utils import *
 import main_models
 import interpreters
 
-class PINE(object):
-    model_name = "PINE"     # name for checkpoint
 
+class PINE:
     def __init__(self, sess, main_model, interpreter, epoch, batch_size, dataset_name, checkpoint_dir, result_dir):
         self.sess = sess
         self.dataset_name = dataset_name
@@ -35,69 +27,31 @@ class PINE(object):
         self.checkpoint_dir = checkpoint_dir
         self.epoch = epoch
         self.batch_size = batch_size
+        self.c_dim = 1 if dataset_name == 'mnist' else 3
+        self.learning_rate = 0.0001
+        self.beta1 = 0.5
+        self.sample_num = 64
+        self.main_model = getattr(main_models, main_model)
+        self.interpreter = getattr(interpreters, interpreter)
 
         if dataset_name == 'mnist':
-            # parameters
-            self.input_height = 28
-            self.input_width = 28
-            self.output_height = 28
-            self.output_width = 28
-      
-            self.y_dim = 10        
-            self.c_dim = 1
-
-            # Loss terms coefficients
-            self.c1 = 10000
-            self.c2 = 10000
-            self.c3 = 1000000
-            self.c4 = 0
-            # train
-            self.learning_rate = 0.0001
-            self.beta1 = 0.5
-
-            # test
-            self.sample_num = 64  
-
-            # load mnist
+            self.model_name = 'PINE_MNIST'
+            self.input_height, self.input_width, self.output_height, self.output_width = 28, 28, 28, 28
+            self.y_dim = 10
+            self.c1, self.c2, self.c3, self.c4 = 10000, 10000, 1000000, 0
             self.data_X, self.data_X_test, self.data_y, self.data_y_test = load_mnist(self.dataset_name)
-
-            # get number of batches for a single epoch
-            self.num_batches = len(self.data_X) // self.batch_size
-            self.kcc = tf.keras.losses.CategoricalCrossentropy()
-
         elif dataset_name == 'cifar10':
-            # parameters
-            self.input_height = 32
-            self.input_width = 32
-            self.output_height = 32
-            self.output_width = 32
-      
-            self.y_dim = 10        
-            self.c_dim = 3
-
-            # Loss terms coefficients
-            self.c1 = 10000
-            self.c2 = 10000
-            self.c3 = 1000000
-            self.c4 = 1000
-            # train
-            self.learning_rate = 0.0001
-            self.beta1 = 0.5
-
-            # test
-            self.sample_num = 64  
-
-            # load mnist
+            self.model_name = 'PINE_CIFAR10'
+            self.input_height, self.input_width, self.output_height, self.output_width = 32, 32, 32, 32
+            self.y_dim = 10
+            self.c1, self.c2, self.c3, self.c4 = 10000, 10000, 1000000, 1000
             self.data_X, self.data_X_test, self.data_y, self.data_y_test = load_cifar10(self.dataset_name)
-
-            # get number of batches for a single epoch
-            self.num_batches = len(self.data_X) // self.batch_size
-            self.kcc = tf.keras.losses.CategoricalCrossentropy()
         else:
-            raise NotImplementedError
+            raise ValueError('Invalid dataset name')
 
-        self.main_model = getattr(main_models,main_model)
-        self.interpreter = getattr(interpreters,interpreter)
+        self.num_batches = len(self.data_X) // self.batch_size
+        self.kcc = CategoricalCrossentropy()
+
         
     def build_pine(self):
         # some parameters
